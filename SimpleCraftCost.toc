@@ -1,0 +1,10 @@
+## Interface: 30300
+## Title: SimpleCraftCost
+## Notes: Displays the crafting cost based on Auctionator prices
+## Author: zimbabd
+## Dependencies: Blizzard_TradeSkillUI
+## OptionalDeps: Auctionator
+## SavedVariables: SimpleCraftCostDB
+## Version: 1.0
+
+SimpleCraftCost.lua
