@@ -7,8 +7,9 @@ A lightweight World of Warcraft addon that estimates the material cost of the se
 - Displays the estimated reagent cost in the Trade Skill window.
 - Updates when a recipe is selected or the Trade Skill window changes.
 - Lets you reposition the cost label with Ctrl+left-drag and saves its position account-wide.
+- Lets you change the label font size in-game and saves the setting account-wide.
 - Shows a partial-cost warning when one or more reagent prices are unavailable.
-- Includes an optional debug mode for troubleshooting.
+- Includes in-game command help and an optional debug mode.
 
 ## Requirements
 
@@ -41,9 +42,31 @@ The default position is anchored to the bottom-right corner of the Trade Skill w
 
 Reload the UI with `/reload` after changing the default values. If a custom position has already been saved, use `/sccreset` to return to the new default.
 
-## Debugging
+## Font Size
 
-Enter `/sccdebug` in the chat to toggle debug output. With debug enabled, select a recipe and check the chat for its reagents, Auctionator price results, and calculated total. Enter `/sccdebug` again to turn debug output off.
+Change the cost label text size in-game with `/sccfont 16` (replace `16` with a value from 8 to 32). The change applies immediately and is saved account-wide. Enter `/sccfont` without a number to display the current size.
+
+The default font size can also be changed near the top of `SimpleCraftCost.lua`:
+
+```lua
+local COST_FONT_SIZE = 14
+```
+
+Use a larger number to increase the text size or a smaller number to reduce it, then run `/reload`.
+
+## Commands
+
+- `/scc help` or `/scc` - List all addon commands and controls.
+- `/sccfont` - Show the current label font size.
+- `/sccfont 8-32` - Set the font size immediately; the value is saved account-wide.
+- `/sccdebug` - Toggle diagnostic output in chat.
+- `/sccreset` - Clear the saved label position and return to the configured default position.
+
+Hold **Ctrl** and left-drag the label to move it anywhere on screen. Its position is saved account-wide.
+
+With debug enabled, select a recipe and check chat for its reagents, Auctionator price results, and calculated total. Enter `/sccdebug` again to turn debug output off.
+
+## Lua Error Reporting
 
 To show Lua errors in-game, run:
 

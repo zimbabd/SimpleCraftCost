@@ -1,6 +1,7 @@
 -- Blizzard_TradeSkillUI is a TOC dependency, so TradeSkillFrame exists here.
 local COST_OFFSET_X = -210 -- Negative moves left; positive moves right.
 local COST_OFFSET_Y = 70 -- Positive moves up; negative moves down.
+local COST_FONT_SIZE = 14 -- Increase or decrease the cost label font size.
 
 SimpleCraftCostDB = SimpleCraftCostDB or {}
 
@@ -37,10 +38,35 @@ costPanel:SetScript("OnDragStop", function(self)
 end)
 
 local costText = costPanel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local fontPath, _, fontFlags = costText:GetFont()
+local savedFontSize = tonumber(SimpleCraftCostDB.fontSize)
+local currentFontSize = savedFontSize and savedFontSize >= 8 and savedFontSize <= 32
+    and savedFontSize or COST_FONT_SIZE
+costText:SetFont(fontPath, currentFontSize, fontFlags)
 costText:SetPoint("RIGHT", costPanel, "RIGHT", -4, 0)
 costText:SetWidth(332)
 costText:SetJustifyH("RIGHT")
 costText:SetText("")
+
+SLASH_SIMPLECRAFTCOSTFONT1 = "/sccfont"
+SlashCmdList["SIMPLECRAFTCOSTFONT"] = function(message)
+    local requestedSize = tonumber(message)
+    if not requestedSize then
+        print("SimpleCraftCost font size: " .. currentFontSize .. ". Usage: /sccfont 8-32")
+        return
+    end
+
+    requestedSize = math.floor(requestedSize + 0.5)
+    if requestedSize < 8 or requestedSize > 32 then
+        print("SimpleCraftCost font size must be between 8 and 32.")
+        return
+    end
+
+    currentFontSize = requestedSize
+    SimpleCraftCostDB.fontSize = currentFontSize
+    costText:SetFont(fontPath, currentFontSize, fontFlags)
+    print("SimpleCraftCost font size set to " .. currentFontSize .. ".")
+end
 
 local debugEnabled = false
 local lastDebugMessage
@@ -176,6 +202,20 @@ SlashCmdList["SIMPLECRAFTCOSTRESET"] = function()
     costPanel:ClearAllPoints()
     costPanel:SetPoint("BOTTOMRIGHT", TradeSkillFrame, "BOTTOMRIGHT", COST_OFFSET_X, COST_OFFSET_Y)
     print("SimpleCraftCost position reset. The default position will be used.")
+end
+
+SLASH_SIMPLECRAFTCOST1 = "/scc"
+SlashCmdList["SIMPLECRAFTCOST"] = function(message)
+    local command = string.lower(message or "")
+    if command == "" or command == "help" then
+        print("SimpleCraftCost commands:")
+        print("/sccfont [8-32] - Set or show the cost label font size.")
+        print("/sccdebug - Toggle debug output.")
+        print("/sccreset - Reset the cost label position.")
+        print("Hold Ctrl and left-drag the cost label to move it.")
+    else
+        print("Unknown SimpleCraftCost command. Type /scc help for the command list.")
+    end
 end
 
 -- Refresh the cost when the trade skill UI updates.

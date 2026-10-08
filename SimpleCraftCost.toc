@@ -5,6 +5,6 @@
 ## Dependencies: Blizzard_TradeSkillUI
 ## OptionalDeps: Auctionator
 ## SavedVariables: SimpleCraftCostDB
-## Version: 1.0
+## Version: 1.1
 
 SimpleCraftCost.lua
