@@ -11,6 +11,10 @@ A lightweight World of Warcraft addon that estimates the material cost of the se
 - Shows a partial-cost warning when one or more reagent prices are unavailable.
 - Includes in-game command help and an optional debug mode.
 
+## Screenshots
+<img width="948" height="706" alt="photo_2026-10-08_18-38-23" src="https://github.com/user-attachments/assets/12425c40-0e1d-459e-8db9-84abc561f827" />
+
+
 ## Requirements
 
 - World of Warcraft 3.3.5a (Interface version `30300`).
